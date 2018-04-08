@@ -130,7 +130,7 @@ async function retrieveMeta(entry, url, page, serial) {
 			gameUrl = 'https://psxdatacenter.com/' + entry.info
 		}
 		console.log(entry.name)
-		console.log(gameUrl)
+		console.log('  ' + gameUrl)
 		await page.goto(gameUrl)
 		const data = await page.$$eval('#table19 tr, #table4 tr', function (rows) {
 			let output = {}
@@ -149,7 +149,7 @@ async function retrieveMeta(entry, url, page, serial) {
 			})
 		}
 		catch (e) {
-			console.log("Description not found.")
+			console.log("  Description not found.")
 			description = ''
 		}
 
@@ -171,7 +171,7 @@ async function retrieveMeta(entry, url, page, serial) {
 				entry.releaseday = date.format('D')
 			}
 			catch (e) {
-				// Nothing.
+				console.log('  Date error: ' + data['date released'])
 			}
 		}
 		if (data['developer']) {
