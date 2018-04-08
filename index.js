@@ -100,8 +100,6 @@ game (
  */
 function cleanTitle(title) {
 	let output = title
-	//output = titleCase(output)
-	output = output.trim()
 	for (let i = 1; i < 10; i++) {
 		output = output.replace(`-  [ ${i} DISCS ]`, '')
 		output = output.replace(`[ ${i} DISCS ]`, '')
@@ -109,6 +107,12 @@ function cleanTitle(title) {
 		output = output.replace(`-  [ ${i} Discs ]`, '')
 		output = output.replace(`[ ${i} Discs ]`, '')
 		output = output.replace(` ${i} Discs`, '')
+	}
+	output = output.trim()
+
+	// Remove an end - if it's there.
+	if (output[output.length - 1] === "-") {
+		output = output.slice(0, -1);
 	}
 	return output.trim()
 }
@@ -185,8 +189,8 @@ async function retrieveMeta(entry, url, page, serial) {
 		if (data['publisher']) {
 			let publisher = data['publisher']
 			// Strip the end period.
-			if (publisher[publisher.length-1] === ".") {
-    			publisher = publisher.slice(0,-1);
+			if (publisher[publisher.length - 1] === ".") {
+    			publisher = publisher.slice(0, -1);
 			}
 			entry.publisher = publisher
 		}
