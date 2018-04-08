@@ -9,6 +9,11 @@ const moment = require('moment')
  * Index of the databases and their URLs.
  */
 let databases = {
+	'Sony - PlayStation Portable': [
+		'https://psxdatacenter.com/psp/ulist.html',
+		'https://psxdatacenter.com/psp/jlist.html',
+		'https://psxdatacenter.com/psp/plist.html'
+	],
 	'Sony - PlayStation': [
 		'https://psxdatacenter.com/ulist.html',
 		'https://psxdatacenter.com/jlist.html',
@@ -18,11 +23,6 @@ let databases = {
 		'https://psxdatacenter.com/psx2/ulist2.html',
 		'https://psxdatacenter.com/psx2/jlist2.html',
 		'https://psxdatacenter.com/psx2/plist2.html'
-	],
-	'Sony - PlayStation Portable': [
-		'https://psxdatacenter.com/psp/ulist.html',
-		'https://psxdatacenter.com/psp/jlist.html',
-		'https://psxdatacenter.com/psp/plist.html'
 	],
 }
 
