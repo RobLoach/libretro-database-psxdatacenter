@@ -1,0 +1,27 @@
+{
+  "name": "libretro-database-psxdatacenter",
+  "version": "2018.4.7",
+  "description": "libretro-database-psxdatacenter",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robloach/libretro-database-psxdatacenter.git"
+  },
+  "keywords": [
+    "libretro-database"
+  ],
+  "author": "Rob Loach (http://robloach.net)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/robloach/libretro-database-psxdatacenter/issues"
+  },
+  "homepage": "https://github.com/robloach/libretro-database-psxdatacenter#readme",
+  "dependencies": {
+    "debug": "^3.1.0",
+    "puppeteer": "^1.2.0",
+    "title-case": "^2.1.1"
+  }
+}
