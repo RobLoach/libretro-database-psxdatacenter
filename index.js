@@ -78,7 +78,7 @@ function datEntry(game) {
 		gameEntries += `\n	users ${cleanValue(game.users)}`
 	}
 	if (game.genre) {
-		gameEntries += `\n	genre ${cleanValue(game.genre)}`
+		gameEntries += `\n	genre "${cleanValue(game.genre)}"`
 	}
 	if (game.esrb_rating) {
 		gameEntries += `\n	esrb_rating "${cleanValue(game.esrb_rating)}"`
@@ -209,8 +209,14 @@ async function retrieveMeta(entry, url, page, serial) {
 				'action': 'Action',
 				'simulation': 'Simulation',
 				'shooter': 'Shooter',
+				'adventure': 'Adventure',
 				'strategy': 'Strategy',
 				'sports': 'Sports',
+				'soccer': 'Sports',
+				'baseball': 'Sports',
+				'hockey': 'Sports',
+				'fighter': 'Fighter',
+				'basketball': 'Basketball',
 				'rpg': 'RPG',
 				'platform': 'Platform',
 				'racing': 'Racing / Driving',
