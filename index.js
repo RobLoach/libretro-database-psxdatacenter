@@ -118,8 +118,20 @@ function cleanTitle(title) {
  */
 async function retrieveMeta(entry, url, page, serial) {
 	if (entry.info) {
+
+		let gameUrl = entry.info
+		if (url.includes('psx2/')) {
+			gameUrl = 'https://psxdatacenter.com/psx2/' + entry.info
+		}
+		else if (url.includes ('psp/')) {
+			gameUrl = 'https://psxdatacenter.com/psp/' + entry.info
+		}
+		else {
+			gameUrl = 'https://psxdatacenter.com/' + entry.info
+		}
 		console.log(entry.name)
-		await page.goto('https://psxdatacenter.com/' + entry.info)
+		console.log(gameUrl)
+		await page.goto(gameUrl)
 		const data = await page.$$eval('#table19 tr, #table4 tr', function (rows) {
 			let output = {}
 			for (let row of rows) {
@@ -130,9 +142,17 @@ async function retrieveMeta(entry, url, page, serial) {
 			return output
 		})
 
-		const description = await page.$eval('#table16 td', function (td) {
-			return td.innerText
-		})
+		let description = ''
+		try {
+			description = await page.$eval('#table16 td', function (td) {
+				return td.innerText
+			})
+		}
+		catch (e) {
+			console.log("Description not found.")
+			description = ''
+		}
+
 		if (description) {
 			entry.description = description.trim().split('\n')[0].trim()
 		}
@@ -238,16 +258,17 @@ async function constructDats() {
 					for (let child of children) {
 						let nodeName = child.nodeName
 						if (nodeName == "TD") {
-							if (child.outerHTML.includes('"col1"')) {
+							let outerHTML = child.outerHTML
+							if (outerHTML.includes('"col1"') || outerHTML.includes('"col5"')) {
 								let theMatch = child.outerHTML.match(/href="([^"]*)/)
 								if (theMatch && theMatch[1]) {
 									entry.info = theMatch[1]
 								}
 							}
-							if (child.outerHTML.includes('"col2"')) {
+							if (outerHTML.includes('"col2"') || outerHTML.includes('"col6"')) {
 								entry.serial = child.innerText
 							}
-							if (child.outerHTML.includes('"col3"')) {
+							if (outerHTML.includes('"col3"') || outerHTML.includes('"col7"')) {
 								entry.name = child.innerText
 							}
 						}
@@ -289,6 +310,7 @@ async function constructDats() {
 					finalList.push({
 						serial: ser,
 						name: title,
+						description: entry.description,
 						releaseyear: entry.releaseyear,
 						releasemonth: entry.releasemonth,
 						releaseday: entry.releaseday,
