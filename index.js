@@ -1,6 +1,8 @@
 const puppeteer = require('puppeteer');
 const titleCase = require('title-case')
 const fs = require('fs')
+const pkg = require('./package.json')
+const sortArray = require('sort-array')
 
 let databases = {
 	'Sony - PlayStation': [
@@ -27,6 +29,13 @@ function header(title, version, homepage) {
 	version "${version}"
 	homepage "${homepage}"
 )\n`
+}
+
+/**
+ * Clean the given value to be DAT file safe.
+ */
+function cleanValue(val) {
+	return val.replace(new RegExp('"', 'g'), '\'')
 }
 
 /**
@@ -77,9 +86,11 @@ async function constructDats() {
 	const page = await browser.newPage();
 
 	for (let databaseName in databases) {
+		console.log(databaseName)
 		let finalList = []
 		let urls = databases[databaseName]
 		for (let url of urls) {
+			console.log(url)
 			await page.goto(url);
 			const entries = await page.$$eval('tr', function (rows, titleCase) {
 				let output = []
@@ -134,7 +145,14 @@ async function constructDats() {
 				}
 			}
 		}
-		console.log(finalList)
+
+		let outputDat = header(databaseName, pkg.version, pkg.homepage)
+		finalList = sortArray(finalList, 'name')
+		for (let entry of finalList) {
+			outputDat += datEntry(entry)
+		}
+
+		fs.writeFileSync('libretro-database/dat/' + databaseName + '.dat', outputDat)
 	}
 
 
