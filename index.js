@@ -103,6 +103,9 @@ function cleanTitle(title) {
 	//output = titleCase(output)
 	output = output.trim()
 	for (let i = 1; i < 10; i++) {
+		output = output.replace(`-  [ ${i} DISCS ]`, '')
+		output = output.replace(`[ ${i} DISCS ]`, '')
+		output = output.replace(` ${i} DISCS`, '')
 		output = output.replace(`-  [ ${i} Discs ]`, '')
 		output = output.replace(`[ ${i} Discs ]`, '')
 		output = output.replace(` ${i} Discs`, '')
