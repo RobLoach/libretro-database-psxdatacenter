@@ -212,6 +212,7 @@ async function retrieveMeta(entry, url, page, serial) {
 				'adventure': 'Adventure',
 				'strategy': 'Strategy',
 				'sports': 'Sports',
+				'golf': 'Sports',
 				'soccer': 'Sports',
 				'baseball': 'Sports',
 				'hockey': 'Sports',
