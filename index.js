@@ -42,7 +42,13 @@ function header(title, version, homepage) {
  * Clean the given value to be DAT file safe.
  */
 function cleanValue(val) {
-	return val.replace(new RegExp('"', 'g'), '\'')
+	if (val && val.replace) {
+		val = val.replace(new RegExp('"', 'g'), '\'')
+	}
+	if (val && val.trim) {
+		val = val.trim()
+	}
+	return val
 }
 
 /**
@@ -93,8 +99,8 @@ game (
  * Quick clean of the given title.
  */
 function cleanTitle(title) {
-	output = title
-	output = titleCase(output)
+	let output = title
+	//output = titleCase(output)
 	output = output.trim()
 	for (let i = 1; i < 10; i++) {
 		output = output.replace(`-  [ ${i} Discs ]`, '')
@@ -125,7 +131,7 @@ async function retrieveMeta(entry, url, page, serial) {
 			return td.innerText
 		})
 		if (description) {
-			entry.description = description.split('\n')[0]
+			entry.description = description.trim().split('\n')[0].trim()
 		}
 
 		if (data['common title']) {
@@ -205,11 +211,11 @@ async function constructDats() {
 
 	// Disable loading images.
 	page.on('request', request => {
-		if (request.resourceType() === 'image') {
-			request.abort();
+		if (request.resourceType() == 'document') {
+			request.continue();
 		}
 		else {
-			request.continue();
+			request.abort();
 		}
 	});
 
