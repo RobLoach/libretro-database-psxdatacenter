@@ -70,6 +70,7 @@ game (
 	serial "${game.serial}"${gameEntries}
 	rom (
 		serial "${cleanValue(game.serial)}"
+		image "${cleanValue(game.name)}.cue"
 	)
 )
 `
@@ -77,8 +78,14 @@ game (
 
 function cleanTitle(title) {
 	output = title
-	output = titleCase(output).trim()
-	return output
+	output = titleCase(output)
+	output = output.trim()
+	for (let i = 1; i < 10; i++) {
+		output = output.replace(`-  [ ${i} Discs ]`, '')
+		output = output.replace(`[ ${i} Discs ]`, '')
+		output = output.replace(` ${i} Discs`, '')
+	}
+	return output.trim()
 }
 
 async function constructDats() {
@@ -124,9 +131,6 @@ async function constructDats() {
 				let title = ''
 				for (let ser of serials) {
 					title = entry.name
-					if (serials.length > 1) {
-						title += ' (Disc ' + ++discNum + ')'
-					}
 
 					if (url.includes('plist')) {
 						title += ' (Europe)'
@@ -136,6 +140,10 @@ async function constructDats() {
 					}
 					else if (url.includes('jlist')) {
 						title += ' (Japan)'
+					}
+
+					if (serials.length > 1) {
+						title += ' (Disc ' + ++discNum + ')'
 					}
 
 					finalList.push({
