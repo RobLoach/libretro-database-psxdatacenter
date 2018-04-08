@@ -5,6 +5,9 @@ const pkg = require('./package.json')
 const sortArray = require('sort-array')
 const moment = require('moment')
 
+/**
+ * Index of the databases and their URLs.
+ */
 let databases = {
 	'Sony - PlayStation': [
 		'https://psxdatacenter.com/ulist.html',
@@ -23,6 +26,9 @@ let databases = {
 	],
 }
 
+/**
+ * Build the DAT's header info.
+ */
 function header(title, version, homepage) {
 	return `clrmamepro (
 	name "${title}"
@@ -80,6 +86,9 @@ game (
 `
 }
 
+/**
+ * Quick clean of the given title.
+ */
 function cleanTitle(title) {
 	output = title
 	output = titleCase(output)
@@ -92,9 +101,12 @@ function cleanTitle(title) {
 	return output.trim()
 }
 
+/**
+ * Retrieve meta data about the given game.
+ */
 async function retrieveMeta(entry, url, page, serial) {
 	if (entry.info) {
-		console.log(entry.info)
+		console.log(entry.name)
 		await page.goto('https://psxdatacenter.com/' + entry.info)
 		const data = await page.$$eval('#table19 tr, #table4 tr', function (rows) {
 			let output = {}
@@ -140,9 +152,11 @@ async function retrieveMeta(entry, url, page, serial) {
 			entry.publisher = publisher
 		}
 		if (data['number of players']) {
-			let num = data['number of players'].replace( /^\D+/g, '')
-			if (num) {
-				entry.users = num.trim()
+			for (let i = 9; i > 0; i--) {
+				if (data['number of players'].includes(i.toString())) {
+					entry.users = i
+					break;
+				}
 			}
 		}
 		if (data['genre / style']) {
@@ -152,13 +166,13 @@ async function retrieveMeta(entry, url, page, serial) {
 				'action': 'Action',
 				'simulation': 'Simulation',
 				'shooter': 'Shooter',
+				'strategy': 'Strategy',
 				'sports': 'Sports',
 				'platform': 'Platform',
 				'racing': 'Racing / Driving',
 				'driving': 'Racing / Driving'
 			}
 			for (let currentGenre in genres) {
-				console.log(currentGenre)
 				if (genreLower.includes(currentGenre)) {
 					genre = genres[currentGenre]
 					break;
@@ -167,10 +181,12 @@ async function retrieveMeta(entry, url, page, serial) {
 			entry.genre = genre
 		}
 	}
-	console.log(entry)
 	return entry
 }
 
+/**
+ * Scrap information and construct the DATs.
+ */
 async function constructDats() {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
@@ -215,7 +231,6 @@ async function constructDats() {
 			for (let entry of entries) {
 				entry.name = cleanTitle(entry.name)
 				let serials = entry.serial.split('\n')
-				// TODO: Retrieve more meta information for the entry using serials[0]
 				let discNum = 0
 				let title = ''
 				for (let ser of serials) {
@@ -242,7 +257,14 @@ async function constructDats() {
 
 					finalList.push({
 						serial: ser,
-						name: title
+						name: title,
+						releaseyear: entry.releaseyear,
+						releasemonth: entry.releasemonth,
+						releaseday: entry.releaseday,
+						developer: entry.developer,
+						publisher: entry.publisher,
+						users: entry.users,
+						genre: entry.genre
 					})
 				}
 			}
