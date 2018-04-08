@@ -3,6 +3,7 @@ const titleCase = require('title-case')
 const fs = require('fs')
 const pkg = require('./package.json')
 const sortArray = require('sort-array')
+const moment = require('moment')
 
 let databases = {
 	'Sony - PlayStation': [
@@ -61,6 +62,9 @@ function datEntry(game) {
 	if (game.users) {
 		gameEntries += `\n	users ${cleanValue(game.users)}`
 	}
+	if (game.genre) {
+		gameEntries += `\n	genre ${cleanValue(game.genre)}`
+	}
 	if (game.esrb_rating) {
 		gameEntries += `\n	esrb_rating "${cleanValue(game.esrb_rating)}"`
 	}
@@ -88,6 +92,85 @@ function cleanTitle(title) {
 	return output.trim()
 }
 
+async function retrieveMeta(entry, url, page, serial) {
+	if (entry.info) {
+		console.log(entry.info)
+		await page.goto('https://psxdatacenter.com/' + entry.info)
+		const data = await page.$$eval('#table19 tr, #table4 tr', function (rows) {
+			let output = {}
+			for (let row of rows) {
+				let cells = row.innerText.split('\t')
+				let name = cells[0].toLowerCase().trim()
+				output[name] = cells[1].trim()
+			}
+			return output
+		})
+
+		if (data['common title']) {
+			entry.name = data['common title']
+		}
+		if (data['official title']) {
+			entry.name = data['official title']
+		}
+		if (data['date released']) {
+			try {
+				let date = moment(data['date released'], 'D MMM YYYY')
+				entry.releaseyear = date.format('YYYY')
+				entry.releasemonth = date.format('M')
+				entry.releaseday = date.format('D')
+			}
+			catch (e) {
+				// Nothing.
+			}
+		}
+		if (data['developer']) {
+			let dev = data['developer']
+			// Strip the end period.
+			if (dev[dev.length-1] === ".") {
+    			dev = dev.slice(0,-1);
+			}
+			entry.developer = dev
+		}
+		if (data['publisher']) {
+			let publisher = data['publisher']
+			// Strip the end period.
+			if (publisher[publisher.length-1] === ".") {
+    			publisher = publisher.slice(0,-1);
+			}
+			entry.publisher = publisher
+		}
+		if (data['number of players']) {
+			let num = data['number of players'].replace( /^\D+/g, '')
+			if (num) {
+				entry.users = num.trim()
+			}
+		}
+		if (data['genre / style']) {
+			let genre = data['genre / style']
+			let genreLower = genre.toLowerCase()
+			let genres = {
+				'action': 'Action',
+				'simulation': 'Simulation',
+				'shooter': 'Shooter',
+				'sports': 'Sports',
+				'platform': 'Platform',
+				'racing': 'Racing / Driving',
+				'driving': 'Racing / Driving'
+			}
+			for (let currentGenre in genres) {
+				console.log(currentGenre)
+				if (genreLower.includes(currentGenre)) {
+					genre = genres[currentGenre]
+					break;
+				}
+			}
+			entry.genre = genre
+		}
+	}
+	console.log(entry)
+	return entry
+}
+
 async function constructDats() {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
@@ -101,13 +184,19 @@ async function constructDats() {
 			await page.goto(url);
 			const entries = await page.$$eval('tr', function (rows, titleCase) {
 				let output = []
-				for (var row of rows) {
+				for (let row of rows) {
 					let indexCount = 0
 					let entry = {}
 					let children = row.childNodes
 					for (let child of children) {
 						let nodeName = child.nodeName
 						if (nodeName == "TD") {
+							if (child.outerHTML.includes('"col1"')) {
+								let theMatch = child.outerHTML.match(/href="([^"]*)/)
+								if (theMatch && theMatch[1]) {
+									entry.info = theMatch[1]
+								}
+							}
 							if (child.outerHTML.includes('"col2"')) {
 								entry.serial = child.innerText
 							}
@@ -130,6 +219,11 @@ async function constructDats() {
 				let discNum = 0
 				let title = ''
 				for (let ser of serials) {
+
+					if (discNum == 0) {
+						entry = await retrieveMeta(entry, url, page, ser)
+					}
+
 					title = entry.name
 
 					if (url.includes('plist')) {
@@ -143,7 +237,7 @@ async function constructDats() {
 					}
 
 					if (serials.length > 1) {
-						title += ' (Disc ' + ++discNum + ')'
+						title += ` (Disc ${++discNum} of ${serials.length})`
 					}
 
 					finalList.push({
