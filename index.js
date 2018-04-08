@@ -50,6 +50,9 @@ function cleanValue(val) {
  */
 function datEntry(game) {
 	gameEntries = ''
+	if (game.description) {
+		gameEntries += `\n	description "${cleanValue(game.description)}"`
+	}
 	if (game.developer) {
 		gameEntries += `\n	developer "${cleanValue(game.developer)}"`
 	}
@@ -118,6 +121,13 @@ async function retrieveMeta(entry, url, page, serial) {
 			return output
 		})
 
+		const description = await page.$eval('#table16 td', function (td) {
+			return td.innerText
+		})
+		if (description) {
+			entry.description = description.split('\n')[0]
+		}
+
 		if (data['common title']) {
 			entry.name = data['common title']
 		}
@@ -168,6 +178,7 @@ async function retrieveMeta(entry, url, page, serial) {
 				'shooter': 'Shooter',
 				'strategy': 'Strategy',
 				'sports': 'Sports',
+				'rpg': 'RPG',
 				'platform': 'Platform',
 				'racing': 'Racing / Driving',
 				'driving': 'Racing / Driving'
@@ -190,6 +201,17 @@ async function retrieveMeta(entry, url, page, serial) {
 async function constructDats() {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
+	await page.setRequestInterception(true);
+
+	// Disable loading images.
+	page.on('request', request => {
+		if (request.resourceType() === 'image') {
+			request.abort();
+		}
+		else {
+			request.continue();
+		}
+	});
 
 	for (let databaseName in databases) {
 		console.log(databaseName)
