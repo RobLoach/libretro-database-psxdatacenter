@@ -66,16 +66,16 @@ function datEntry(game) {
 		gameEntries += `\n	publisher "${cleanValue(game.publisher)}"`
 	}
 	if (game.releaseyear) {
-		gameEntries += `\n	releaseyear ${cleanValue(game.releaseyear)}`
+		gameEntries += `\n	releaseyear "${cleanValue(game.releaseyear)}"`
 	}
 	if (game.releasemonth) {
-		gameEntries += `\n	releasemonth ${cleanValue(game.releasemonth)}`
+		gameEntries += `\n	releasemonth "${cleanValue(game.releasemonth)}"`
 	}
 	if (game.releaseday) {
-		gameEntries += `\n	releaseday ${cleanValue(game.releaseday)}`
+		gameEntries += `\n	releaseday "${cleanValue(game.releaseday)}"`
 	}
 	if (game.users) {
-		gameEntries += `\n	users ${cleanValue(game.users)}`
+		gameEntries += `\n	users "${cleanValue(game.users)}"`
 	}
 	if (game.genre) {
 		gameEntries += `\n	genre "${cleanValue(game.genre)}"`
@@ -170,9 +170,11 @@ async function retrieveMeta(entry, url, page, serial) {
 		if (data['date released']) {
 			try {
 				let date = moment(data['date released'], 'D MMM YYYY')
-				entry.releaseyear = date.format('YYYY')
-				entry.releasemonth = date.format('M')
-				entry.releaseday = date.format('D')
+				if (date.isValid()) {
+					entry.releaseyear = date.format('YYYY')
+					entry.releasemonth = date.format('M')
+					entry.releaseday = date.format('D')
+				}
 			}
 			catch (e) {
 				console.log('  Date error: ' + data['date released'])
