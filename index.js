@@ -303,6 +303,7 @@ async function constructDats() {
 			for (let entry of entries) {
 				entry.name = cleanTitle(entry.name)
 				if (entry.name === null) {
+					// TODO: Figure out what to do with defunked requests?
 					continue
 				}
 				let serials = entry.serial.split('\n')
