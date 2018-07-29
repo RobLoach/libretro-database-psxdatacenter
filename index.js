@@ -99,6 +99,9 @@ game (
  * Quick clean of the given title.
  */
 function cleanTitle(title) {
+	if (!title) {
+		return null
+	}
 	let output = title
 	for (let i = 1; i < 10; i++) {
 		output = output.replace(`-  [ ${i} DISCS ]`, '')
@@ -140,8 +143,12 @@ async function retrieveMeta(entry, url, page, serial) {
 			let output = {}
 			for (let row of rows) {
 				let cells = row.innerText.split('\t')
-				let name = cells[0].toLowerCase().trim()
-				output[name] = cells[1].trim()
+				if (cells[0] && cells[0].toLowerCase) {
+					let name = cells[0].toLowerCase().trim()
+					if (cells[1] && cells[1].trim) {
+						output[name] = cells[1].trim()
+					}
+				}
 			}
 			return output
 		})
@@ -157,7 +164,7 @@ async function retrieveMeta(entry, url, page, serial) {
 			description = ''
 		}
 
-		if (description) {
+		if (description && description.trim) {
 			entry.description = description.trim().split('\n')[0].trim()
 		}
 
@@ -295,6 +302,9 @@ async function constructDats() {
 
 			for (let entry of entries) {
 				entry.name = cleanTitle(entry.name)
+				if (entry.name === null) {
+					continue
+				}
 				let serials = entry.serial.split('\n')
 				let discNum = 0
 				let title = ''
