@@ -348,7 +348,7 @@ async function constructDats() {
 		}
 
 		let outputDat = header(databaseName, pkg.version, pkg.homepage)
-		finalList = sortArray(finalList, 'name')
+		finalList = sortArray(finalList, ['name', 'serial'])
 		for (let entry of finalList) {
 			outputDat += datEntry(entry)
 		}
