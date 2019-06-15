@@ -111,6 +111,13 @@ function cleanTitle(title) {
 		output = output.replace(`[ ${i} Discs ]`, '')
 		output = output.replace(` ${i} Discs`, '')
 	}
+	
+	// Manual title case fixes
+	output = output
+		.replace('shell', 'Shell')
+		.replace('wheelman', 'Wheelman')
+	
+	// Clean up the outside whitespace
 	output = output.trim()
 
 	// Remove an end - if it's there.
