@@ -44,6 +44,7 @@ function header(title, version, homepage) {
 function cleanValue(val) {
 	if (val && val.replace) {
 		val = val.replace(new RegExp('"', 'g'), '\'')
+			.replace('Bakahatsu', 'Bakuhatsu')
 	}
 	if (val && val.trim) {
 		val = val.trim()
