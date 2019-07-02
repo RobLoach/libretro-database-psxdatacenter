@@ -117,6 +117,7 @@ function cleanTitle(title) {
 	output = output
 		.replace('shell', 'Shell')
 		.replace('wheelman', 'Wheelman')
+		.replace('never dies', 'Never Dies')
 	
 	// Clean up the outside whitespace
 	output = output.trim()
