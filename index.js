@@ -91,7 +91,7 @@ game (
 	serial "${game.serial}"${gameEntries}
 	rom (
 		serial "${cleanValue(game.serial)}"
-		image "${cleanValue(game.name)}.cue"
+		name "${cleanValue(game.name)}.cue"
 	)
 )
 `
