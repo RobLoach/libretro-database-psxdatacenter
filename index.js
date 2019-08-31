@@ -44,6 +44,8 @@ function header(title, version, homepage) {
 function cleanValue(val) {
 	if (val && val.replace) {
 		val = val.replace(new RegExp('"', 'g'), '\'')
+			.replace('Bakahatsu', 'Bakuhatsu')
+		        .replace('Joint Assaul ', 'Joint Assault ')
 	}
 	if (val && val.trim) {
 		val = val.trim()
@@ -89,7 +91,7 @@ game (
 	serial "${game.serial}"${gameEntries}
 	rom (
 		serial "${cleanValue(game.serial)}"
-		image "${cleanValue(game.name)}.cue"
+		name "${cleanValue(game.name)}.cue"
 	)
 )
 `
@@ -111,6 +113,14 @@ function cleanTitle(title) {
 		output = output.replace(`[ ${i} Discs ]`, '')
 		output = output.replace(` ${i} Discs`, '')
 	}
+	
+	// Manual title case fixes
+	output = output
+		.replace('shell', 'Shell')
+		.replace('wheelman', 'Wheelman')
+		.replace('never dies', 'Never Dies')
+	
+	// Clean up the outside whitespace
 	output = output.trim()
 
 	// Remove an end - if it's there.
