@@ -22,7 +22,7 @@
   "dependencies": {
     "debug": "^4.1.1",
     "moment": "^2.24.0",
-    "puppeteer": "^1.15.0",
+    "puppeteer": "^1.19.0",
     "sort-array": "^2.0.0",
     "sort-object": "^3.0.2",
     "title-case": "^2.1.1"
