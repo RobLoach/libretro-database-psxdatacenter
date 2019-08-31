@@ -4,6 +4,7 @@ const fs = require('fs')
 const pkg = require('./package.json')
 const sortArray = require('sort-array')
 const moment = require('moment')
+const overrides = require('./overrides')
 
 /**
  * Index of the databases and their URLs.
@@ -115,10 +116,7 @@ function cleanTitle(title) {
 	}
 	
 	// Manual title case fixes
-	output = output
-		.replace('shell', 'Shell')
-		.replace('wheelman', 'Wheelman')
-		.replace('never dies', 'Never Dies')
+	output = overrides(output)
 	
 	// Clean up the outside whitespace
 	output = output.trim()
