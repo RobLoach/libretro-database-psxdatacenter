@@ -56,6 +56,18 @@ function cleanValue(val) {
 }
 
 /**
+ * Clean the given value to be filename safe.
+ */
+function cleanFilename(val) {
+	return val.replace('?', '')
+		.replace(':', '')
+		.replace('!', '')
+		.replace('*', '')
+		.replace('/', '')
+		.replace('\\', '')
+}
+
+/**
  * Construct a DAT entry based on the given game.
  */
 function datEntry(game) {
@@ -93,7 +105,7 @@ game (
 	serial "${game.serial}"${gameEntries}
 	rom (
 		serial "${cleanValue(game.serial)}"
-		name "${cleanValue(game.name)}.cue"
+		name "${cleanFilename(cleanValue(game.name))}.cue"
 	)
 )
 `
