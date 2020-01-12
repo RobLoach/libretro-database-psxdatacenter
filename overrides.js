@@ -15,4 +15,11 @@ module.exports = function (title) {
 		.replace('Capcom Generations (Europe) (Disc 2 of 4)', 'Capcom Generations (Europe) (Disc 2) (Chronicles of Arthur)')
 		.replace('Capcom Generations (Europe) (Disc 3 of 4)', 'Capcom Generations (Europe) (Disc 3) (The First Generation)')
 		.replace('Capcom Generations (Europe) (Disc 4 of 4)', 'Capcom Generations (Europe) (Disc 4) (Blazing Guns)')
+		.replace('Gran Turismo 2 - The Real Driving Simulator (USA) (Disc 1 of 3)', 'Gran Turismo 2 (USA) (Arcade Mode)')
+		.replace('Gran Turismo 2 - The Real Driving Simulator (USA) (Disc 2 of 3)', 'Gran Turismo 2 (USA) (Simulation Mode)')
+		.replace('Gran Turismo 2 - The Real Driving Simulator (USA) (Disc 3 of 3)', 'Gran Turismo 2: Music at the Speed of Sound: The Album (USA) (Bonus PlayStation Disc)')
+		.replace('Grand Theft Auto [Director's Cut] (USA) (Disc 1 of 2)', 'Grand Theft Auto (USA)')
+		.replace('Grand Theft Auto [Director's Cut] (USA) (Disc 2 of 2)', 'Grand Theft Auto: Mission Pack #1: London 1969 (USA)')
+		.replace('Dino Crisis (USA) (Disc 1 of 2)', 'Dino Crisis (USA)')
+		.replace('Dino Crisis (USA) (Disc 2 of 2)', 'Resident Evil 3: Nemesis (USA) (Demo Disk)')
 }
