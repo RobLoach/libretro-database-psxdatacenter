@@ -18,8 +18,9 @@ module.exports = function (title) {
 		.replace('Gran Turismo 2 - The Real Driving Simulator (USA) (Disc 1 of 3)', 'Gran Turismo 2 - Arcade Mode (USA)')
 		.replace('Gran Turismo 2 - The Real Driving Simulator (USA) (Disc 2 of 3)', 'Gran Turismo 2 - Simulation Mode (USA)')
 		.replace('Gran Turismo 2 - The Real Driving Simulator (USA) (Disc 3 of 3)', 'Gran Turismo 2: Music at the Speed of Sound: The Album (USA) (Bonus PlayStation Disc)')
-		.replace('Grand Theft Auto [Director's Cut] (USA) (Disc 1 of 2)', 'Grand Theft Auto (USA)')
-		.replace('Grand Theft Auto [Director's Cut] (USA) (Disc 2 of 2)', 'Grand Theft Auto: Mission Pack #1: London 1969 (USA)')
+		.replace("Grand Theft Auto [Director's Cut] (USA) (Disc 1 of 2)", 'Grand Theft Auto (USA)')
+		.replace("Grand Theft Auto [Director's Cut] (USA) (Disc 2 of 2)", 'Grand Theft Auto: Mission Pack #1: London 1969 (USA)')
 		.replace('Dino Crisis (USA) (Disc 1 of 2)', 'Dino Crisis (USA)')
 		.replace('Dino Crisis (USA) (Disc 2 of 2)', 'Resident Evil 3: Nemesis (USA) (Demo Disk)')
+		.replace('cold blood', 'Cold Blood')
 }
