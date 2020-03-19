@@ -1,7 +1,8 @@
 {
   "name": "libretro-database-psxdatacenter",
-  "version": "2019.5.4",
+  "version": "2020.3.19",
   "description": "libretro-database-psxdatacenter",
+  "private": true,
   "main": "index.js",
   "scripts": {
     "test": "node index.js"

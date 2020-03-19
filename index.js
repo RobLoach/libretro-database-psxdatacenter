@@ -46,7 +46,7 @@ function cleanValue(val) {
 	if (val && val.replace) {
 		val = val.replace(new RegExp('"', 'g'), '\'')
 			.replace('Bakahatsu', 'Bakuhatsu')
-		        .replace('Joint Assaul ', 'Joint Assault ')
+	        .replace('Joint Assaul ', 'Joint Assault ')
 			.replace('Saga Frontier', 'SaGa Frontier')
 	}
 	if (val && val.trim) {
@@ -374,7 +374,7 @@ async function constructDats() {
 			outputDat += datEntry(entry)
 		}
 
-		fs.writeFileSync('libretro-database/dat/' + databaseName + '.dat', outputDat)
+		fs.writeFileSync('libretro-database/metadat/developer/' + databaseName + '.dat', outputDat)
 	}
 
 
