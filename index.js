@@ -6,6 +6,9 @@ const sortArray = require('sort-array')
 const moment = require('moment')
 const overrides = require('./overrides')
 
+console.log('This is disabled for now!')
+return
+
 /**
  * Index of the databases and their URLs.
  */
