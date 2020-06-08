@@ -6,9 +6,6 @@ const sortArray = require('sort-array')
 const moment = require('moment')
 const overrides = require('./overrides')
 
-console.log('This is disabled for now!')
-return
-
 /**
  * Index of the databases and their URLs.
  */
@@ -130,10 +127,10 @@ function cleanTitle(title) {
 		output = output.replace(`[ ${i} Discs ]`, '')
 		output = output.replace(` ${i} Discs`, '')
 	}
-	
+
 	// Manual title case fixes
 	output = overrides(output)
-	
+
 	// Clean up the outside whitespace
 	output = output.trim()
 

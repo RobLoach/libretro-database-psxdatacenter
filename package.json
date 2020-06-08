@@ -22,10 +22,10 @@
   "homepage": "https://github.com/robloach/libretro-database-psxdatacenter#readme",
   "dependencies": {
     "debug": "^4.1.1",
-    "moment": "^2.24.0",
-    "puppeteer": "^1.19.0",
-    "sort-array": "^2.0.0",
-    "sort-object": "^3.0.2",
-    "title-case": "^2.1.1"
+    "moment": "^2.26.0",
+    "puppeteer": "^3.3.0",
+    "sort-array": "^4.1.1",
+    "sort-object": "^3.0.3",
+    "title-case": "^3.0.2"
   }
 }
