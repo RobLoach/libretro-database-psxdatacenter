@@ -46,8 +46,10 @@ function cleanValue(val) {
 	if (val && val.replace) {
 		val = val.replace(new RegExp('"', 'g'), '\'')
 			.replace('Bakahatsu', 'Bakuhatsu')
-	        .replace('Joint Assaul ', 'Joint Assault ')
+	        	.replace('Joint Assaul ', 'Joint Assault ')
 			.replace('Saga Frontier', 'SaGa Frontier')
+			.replace('Fifa ', 'FIFA ')
+			.replace('  ', ' ')
 	}
 	if (val && val.trim) {
 		val = val.trim()
