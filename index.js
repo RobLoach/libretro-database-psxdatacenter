@@ -54,6 +54,11 @@ function cleanValue(val) {
 	if (val && val.trim) {
 		val = val.trim()
 	}
+
+	// Remove double spaces
+	if (val.replace) {
+		val = val.replace('  ', ' ').replace('  ', ' ').replace('  ', ' ').replace('  ', ' ').replace('  ', ' ')
+	}
 	return val
 }
 
